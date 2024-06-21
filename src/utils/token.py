@@ -2,7 +2,7 @@ from flask import url_for
 from decouple import config
 from itsdangerous import URLSafeTimedSerializer
 
-from src.utils.email import send_email
+from src.utils.email import send_email, reset_password_email
 
 
 def generate_token(email):
@@ -26,3 +26,9 @@ def generate_and_send(email):
     confirm_url = url_for("auth.confirm", token=token, _external=True)
     subject = "Please confirm your email"
     send_email(email, subject, confirm_url)
+
+def generate_reset_token_send(email):
+    token = generate_token(email)
+    reset_url = url_for("auth.reset_password", token=token, _external=True)
+    subject = "Reset Password"
+    reset_password_email(email, subject, reset_url)

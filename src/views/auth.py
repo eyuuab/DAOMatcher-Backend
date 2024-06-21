@@ -3,7 +3,7 @@ from flask import Blueprint
 
 from src.controllers.auth import login, confirm_email, refresh_token, resend_token, handle_google_signin
 from src.utils.decorators import token_required
-from src.controllers.user import add_user, request
+from src.controllers.user import add_user, request_password_reset
 
 
 auth = Blueprint("auth", __name__)
@@ -23,6 +23,23 @@ def create():
         data.update(
             {
                 "message": "User registered successfully. Please check your email to confirm your account."
+            }
+        )
+        response.data = json.dumps(data)
+        print(response.json)
+        return response
+    return response, status
+
+
+@auth.route(f"{base_url}/forgot_password", methods=["POST"])
+def forgot_password():
+    response, status = request_password_reset()
+
+    if status == 200:    
+        data = response.json
+        data.update(
+            {
+                "message": "Password reset email sent successfully. Please check your email to reset your password."
             }
         )
         response.data = json.dumps(data)

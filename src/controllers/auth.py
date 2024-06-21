@@ -284,7 +284,6 @@ def confirm_email(current_user: dict, token: str):
             500,
         )
 
-
 def resend_token(current_user: dict):
     if current_user.get("verified", False):
         return (

@@ -4,7 +4,7 @@ from flask import request, jsonify
 from sqlalchemy.exc import DatabaseError, IntegrityError
 from src.extensions import db
 from src.models import User, UserUsage
-from src.utils.token import generate_and_send
+from src.utils.token import generate_and_send, generate_reset_token_send
 from typing import Union
 
 
@@ -29,6 +29,26 @@ def get_user_by_id(user_id: str) -> Union[User, None]:
 def get_user_by_email(email: str) -> Union[User, None]:
     user: User = User.query.filter_by(email=email).first()
     return user
+
+def request_password_reset():
+    try:
+        update_user = request.json
+        email = update_user.get('email')
+        if not email:
+            return jsonify({"message": "Email is required", "success": False}), 400
+
+        user = get_user_by_email(email)
+        if not user:
+            return jsonify({"message": "User not found", "success": False}), 404
+
+       
+        generate_reset_token_send(email)
+        db.session.commit()
+
+
+        return jsonify({"message": "Password reset email sent successfully", "success": True}), 200
+    except Exception as e:
+        return jsonify({"message": "Something went wrong", "error": str(e), "success": False}), 500
 
 
 def add_user():
