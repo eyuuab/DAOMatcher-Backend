@@ -1,0 +1,42 @@
+name: Run RAG evaluation tests
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - main
+
+env:
+  TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+  TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+  TWITTER_TOKEN: ${{ secrets.TWITTER_API_SECRET }}
+  LIX_API_KEY: ${{ secrets.LIX_API_KEY }}
+  PALM_API_KEY: ${{ secrets.PALM_API_KEY }}
+
+jobs:
+  test:
+    name: Perform RAG Evaluation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.11.6"
+
+      - name: Install dependencies
+        run: |
+          python -m venv env
+          pip install poetry
+          poetry lock
+          poetry install
+
+      - name: Run tests(Model-Graded Evaluation)
+        if: github.event_name == 'pull_request'
+        run: poetry run pytest test_model_graded_eval.py
+
+    strategy:
+      fail-fast: true

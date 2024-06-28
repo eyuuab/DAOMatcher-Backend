@@ -2,6 +2,8 @@
 poetry.lock
 dependency
 
+env/
+
 #Vscode configuration
 .vscode
 __pycache__

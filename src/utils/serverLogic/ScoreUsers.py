@@ -1,4 +1,5 @@
 import requests
+import time
 from heapq import *
 from collections import *
 from urllib.parse import urlparse
@@ -79,12 +80,13 @@ class ScoreUsers:
             saleNavId = linkedIn.getSaleNavId(profile["salesNavLink"])
             username = linkedIn.getUsername(profile["link"])
 
+            print("linkedIn found profile: ", profile)
             # TODO: Make sure to check whether the image's url is correct or not when you get the api key
             user = {
                 "id": saleNavId,
                 "name": profile["name"],
                 "username": username,
-                "image": profile["imageUrl"],
+                "image": profile.get("imageUrl", None),
                 "social_media": "linkedIn",
             }
 
@@ -164,13 +166,14 @@ class ScoreUsers:
                     # It is going to be set from frontend for the starting users and here in the backend for the new users found
                     _, account = account.split(LINKEDIN_PREFIX)
                     content, user = self.__get_linkedIn_user(account)
+                    time.sleep(4)
 
                     # If there is no user found, no point in executing the rest of the code
                     if not user:
                         continue
 
                     # Get followers for linkedIn
-                    for follower in linkedIn.getConnections(account, 1000):
+                    for follower in linkedIn.getConnections(account, 10):
                         username = follower["publicIdentifier"]
                         username = LINKEDIN_PREFIX + username
 

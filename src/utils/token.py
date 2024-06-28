@@ -23,7 +23,9 @@ def confirm_token(token, expiration=3600):
 
 def generate_and_send(email):
     token = generate_token(email)
-    confirm_url = url_for("auth.confirm", token=token, _external=True)
+    base_url = config("CONFIRM_URL")
+
+    confirm_url = base_url + "/" + token
     subject = "Please confirm your email"
     send_email(email, subject, confirm_url)
 

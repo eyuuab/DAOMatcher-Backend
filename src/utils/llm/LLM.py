@@ -23,15 +23,15 @@ class LLM:
 
     def generate(self, query, content):
         content = self.clean_content(content)
-        print(
-            "\033[94;1m{:<12} {:10}\033[0m".format(
-                "Token: ",
-                len(self.prompt.format_prompt(query=query, content=content).text) / 4,
-            )
-        )
+        # print(
+        #     "\033[94;1m{:<12} {:10}\033[0m".format(
+        #         "Token: ",
+        #         len(self.prompt.format_prompt(query=query, content=content).text) / 4,
+        #     )
+        # )
         try:
             response = self.chain.invoke({"query": query, "content": content})
-            print("\033[92;1m" + response + "\033[0m\n")
+            # print("\033[92;1m" + response + "\033[0m\n")
             response = self.extract_response(response)
             # print(f"Prompt: {prompt.template}")  # For debugging only
 

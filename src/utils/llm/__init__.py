@@ -10,7 +10,7 @@ load_dotenv()
 GOOGLE_API_KEY = config("PALM_API_KEY")
 # os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 
-LOCAL_LLM_PORT = config("LLM_PORT")
+LOCAL_LLM_PORT = config("LLM_PORT", "5001")
 LOCAL_LLM_URL = f"http://127.0.0.1:{LOCAL_LLM_PORT}"
 LLM_URL = None
 

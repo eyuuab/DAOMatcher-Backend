@@ -10,15 +10,15 @@ def send_email(to, subject, confirm_url):
         Welcome! Thanks for signing up. Please follow this link to activate your
         account:
     </p>
-    <p><a href="{confirm_url}">{confirm_url}</a></p>
+    <p>Click <a href="{confirm_url}">here </a>to verify.</p>
     <br />
-    <p>Cheers!</p>
     """
     msg = Message(
         subject,
         recipients=[to],
         html=template,
-        sender=config("EMAIL_USER"),
+        sender=config("MAIL_DEFAULT_SENDER"),
+        extra_headers={"Reply-To": "no-reply@example.com"},
     )
     mail.send(msg)
     

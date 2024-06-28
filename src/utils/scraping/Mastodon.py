@@ -19,10 +19,10 @@ class Mastodon:
             # Setting the search param based on the type of search
             # When webfinger is True, mastodon will search for the user's server from the current server itself. If not it will just try to find the user itself from the server
             acc = "@" + "@".join([acc, server]) if webfinger else acc
-            print(f"\033[92;1m{BASE_URL}/lookup?acct={acc}.\033[0m\n")
+            # print(f"\033[92;1m{BASE_URL}/lookup?acct={acc}.\033[0m\n")
             response = requests.get(f"{BASE_URL}/lookup?acct={acc}", timeout=TIMEOUT)
             response.raise_for_status()
-            print(f"\033[93;1mUser Profile found.\033[0m\n")
+            # print(f"\033[93;1mUser Profile found.\033[0m\n")
             return response.json()
 
         except requests.exceptions.Timeout as errt:
@@ -53,11 +53,11 @@ class Mastodon:
         )
 
         try:
-            print(f"\033[92;1m{BASE_URL}/{id}/following\033[0m\n")
+            # print(f"\033[92;1m{BASE_URL}/{id}/following\033[0m\n")
             response2 = requests.get(f"{BASE_URL}/{id}/following", timeout=TIMEOUT)
             response2.raise_for_status()
-            print(f"\033[93;1mUser Followers found.\033[0m\n")
-            print(len(response2.json()))
+            # print(f"\033[93;1mUser Followers found.\033[0m\n")
+            # print(len(response2.json()))
             return response2.json()
 
         except requests.exceptions.Timeout as errt:
@@ -87,13 +87,13 @@ class Mastodon:
             server=searchServer if webfinger else server
         )
         try:
-            print(f"\033[92;1m{BASE_URL}/{id}/statuses?exclude_replies=true\033[0m\n")
+            # print(f"\033[92;1m{BASE_URL}/{id}/statuses?exclude_replies=true\033[0m\n")
             response = requests.get(
                 f"{BASE_URL}/{id}/statuses?exclude_replies=true", timeout=TIMEOUT
             )
             response.raise_for_status()
 
-            print(f"\033[93;1mUser Content found.\033[0m\n")
+            # print(f"\033[93;1mUser Content found.\033[0m\n")
             return response.json()
 
         except requests.exceptions.Timeout as errt:

@@ -18,7 +18,7 @@ class Twitter:
     def getTwitterProfile(self, username):
         url = f"{base_url}/users/by/username/{username}?user.fields=created_at,description,profile_image_url,public_metrics&expansions=pinned_tweet_id,most_recent_tweet_id"
         response = requests.request("GET", url, headers=headers, data=payload)
-        print(headers)
+        # print(headers)
         data = self.__handleException(response)
         userInfo = data.get("data", None)
         return userInfo
@@ -39,7 +39,7 @@ class Twitter:
     # this function can return the posts made by a user
     def getUserPosts(self, id, count=5):
         url = f"{base_url}/users/{id}/tweets?max_results={count}"
-        print(url)
+        # print(url)
 
         response = requests.request("GET", url, headers=headers, data=payload)
         userPosts = self.__handleException(response)
@@ -51,6 +51,6 @@ class Twitter:
         if response.ok:
             return response.json()
         else:
-            print(response.text)
+            # print(response.text)
             error = response.text
             raise Exception(f"Error: {error}")
